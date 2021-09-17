@@ -20,7 +20,7 @@ void scc_spoof_address(CAN_FIFOMailBox_TypeDef *to_fwd){
 int default_rx_hook(CAN_FIFOMailBox_TypeDef *to_push) {
   int bus = GET_BUS(to_push);
   int addr = GET_ADDR(to_push);
-  if (addr == 524 && bus != mdps_bus && mdps_bus != 0) {
+  if (addr == 593 && bus != mdps_bus && mdps_bus != 0) {
     mdps_bus = bus;
   }
   if (addr == 1057) {
