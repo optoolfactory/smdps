@@ -78,11 +78,8 @@ static int default_fwd_hook(int bus_num, CAN_FIFOMailBox_TypeDef *to_fwd) {
   if (bus_num == 0) {
     bool forward_to_bus1 = scc_bus == 1 && !scc_address;
     bus_fwd = forward_to_bus1 ? 12 : 2;
-    if (addr == 1056 && mdps_spoof_active) {
-      int cruise_engaged = GET_BYTES_04(to_push) & 0x1; // ACC main_on signal
-      if (cruise_engaged) {
-        mdps_spoof_speed(to_fwd);
-      }
+    if (addr == 1265 && mdps_spoof_active) {
+      mdps_spoof_speed(to_fwd);
     }
   }
   if (bus_num == 1) {
