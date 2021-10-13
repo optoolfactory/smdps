@@ -30,7 +30,14 @@ int default_rx_hook(CAN_FIFOMailBox_TypeDef *to_push) {
   } else if (bus == 0 && scc_bus == 1) {
     // scc_spoof_active = true;
   }
-  if (!mdps_spoof_active && mdps_bus == 2) {mdps_spoof_active = true;}
+  if (addr == 1056) {
+    int cruise_engaged = GET_BYTES_04(to_push) & 0x1; // ACC main_on signal
+    if (cruise_engaged) {
+      if (!mdps_spoof_active && mdps_bus == 2) {mdps_spoof_active = true;}
+    } else {
+      mdps_spoof_active = false;
+    }
+  }
   // TODO: Openpilot send de/activation cmd
   // if (bus == 0 && addr == 0x2AB) {
   //   openpilot_live = 2;
