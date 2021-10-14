@@ -75,7 +75,7 @@ def register(spinner=None):
     while True:
       try:
         cloudlog.info("getting pilotauth")
-        resp = api_get("v2/pilotauth/", method='POST', timeout=15,
+        resp = api_get("v2/pilotauth/", method='POST', timeout=10,
                        imei=imei1, imei2=imei2, serial=serial, public_key=public_key, register_token=register_token)
         dongleauth = json.loads(resp.text)
         dongle_id = dongleauth["dongle_id"]
@@ -83,7 +83,8 @@ def register(spinner=None):
         break
       except Exception:
         cloudlog.exception("failed to authenticate")
-        time.sleep(1)
+        break
+        #time.sleep(1)
 
   return dongle_id
 
