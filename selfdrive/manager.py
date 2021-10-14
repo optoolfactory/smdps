@@ -409,6 +409,8 @@ def manager_init():
   reg_res = register(spinner)
   if reg_res:
     dongle_id = reg_res
+  elif not reg_res:
+    dongle_id = ""
   else:
     raise Exception("server registration failed")
   os.environ['DONGLE_ID'] = dongle_id
