@@ -33,7 +33,7 @@ int default_rx_hook(CAN_FIFOMailBox_TypeDef *to_push) {
   if (addr == 1056) {
     int cruise_engaged = GET_BYTES_04(to_push) & 0x1; // ACC main_on signal
     if (cruise_engaged) {
-      if (!mdps_spoof_active && mdps_bus == 2) {mdps_spoof_active = true;}
+      mdps_spoof_active = true;
     } else {
       mdps_spoof_active = false;
     }
