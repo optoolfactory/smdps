@@ -17,10 +17,14 @@ class CarInterface(CarInterfaceBase):
     ret.carName = "ford"
     ret.dashcamOnly = candidate in {CAR.F_150_MK14}
 
-    ret.radarUnavailable = True
+    ret.radarUnavailable = False
     ret.steerControlType = car.CarParams.SteerControlType.angle
     ret.steerActuatorDelay = 0.2
     ret.steerLimitTimer = 1.0
+
+    # Ford appears pretty responsive, no compensation needed
+    #ret.longitudinalTuning.kiV = [0.]
+    #ret.longitudinalTuning.kpV = [0.]
 
     CAN = CanBus(fingerprint=fingerprint)
     cfgs = [get_safety_config(car.CarParams.SafetyModel.ford)]
