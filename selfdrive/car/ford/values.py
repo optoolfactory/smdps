@@ -101,7 +101,6 @@ FW_QUERY_CONFIG = FwQueryConfig(
     Request(
       [StdQueries.TESTER_PRESENT_REQUEST, StdQueries.MANUFACTURER_SOFTWARE_VERSION_REQUEST],
       [StdQueries.TESTER_PRESENT_RESPONSE, StdQueries.MANUFACTURER_SOFTWARE_VERSION_RESPONSE],
-      whitelist_ecus=[Ecu.engine],
     ),
     Request(
       [StdQueries.TESTER_PRESENT_REQUEST, StdQueries.MANUFACTURER_SOFTWARE_VERSION_REQUEST],
@@ -118,7 +117,21 @@ FW_QUERY_CONFIG = FwQueryConfig(
     ),
   ],
   extra_ecus=[
-    (Ecu.shiftByWire, 0x732, None),
+    (Ecu.gateway, 0x716, None),           # Gateway Module A (GWM)
+    (Ecu.combinationMeter, 0x720, None),  # Instrument Panel Cluster (IPC)
+    (Ecu.debug, 0x721, None),             # Vehicle Dynamics Control Module (VDM)
+    (Ecu.debug, 0x724, None),             # Steering Column Control Module (SCCM)
+    (Ecu.body, 0x726, None),              # Body Control Module (BCM)
+    (Ecu.shiftByWire, 0x732, None),       # Gear Shift Module (GSM)
+    (Ecu.hvac, 0x733, None),              # HVAC
+    (Ecu.parkingAdas, 0x736, None),       # Parking Aid Module (PAM)
+    (Ecu.srs, 0x737, None),               # Restraints Control Module (RCM)
+    (Ecu.debug, 0x746, None),             # Direct Current/Direct Current Converter Control Module (DCDC)
+    (Ecu.telematics, 0x754, None),        # Telematic Control Unit Module (TCU)
+    (Ecu.debug, 0x791, None),             # Trailer Module (TRM)
+    (Ecu.cornerRadar, 0x7C4, None),       # Side Obstacle Detection Control Module L (SODL)
+    (Ecu.cornerRadar, 0x7C6, None),       # Side Obstacle Detection Control Module R (SODR)
+    (Ecu.debug, 0x7D0, None),             # Accessory Protocol Interface Module (APIM)
   ],
 )
 
