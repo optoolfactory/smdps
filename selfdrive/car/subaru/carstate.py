@@ -1,5 +1,6 @@
 import copy
 from cereal import car
+from common.realtime import DT_CTRL
 from opendbc.can.can_define import CANDefine
 from common.conversions import Conversions as CV
 from selfdrive.car.interfaces import CarStateBase
@@ -12,6 +13,8 @@ class CarState(CarStateBase):
     super().__init__(CP)
     can_define = CANDefine(DBC[CP.carFingerprint]["pt"])
     self.shifter_values = can_define.dv["Transmission"]["Gear"]
+
+    self.prev_steer_angle = 0
 
   def update(self, cp, cp_cam, cp_body):
     ret = car.CarState.new_message()
@@ -49,6 +52,8 @@ class CarState(CarStateBase):
     ret.steeringAngleDeg = cp.vl["Steering_Torque"]["Steering_Angle"]
     ret.steeringTorque = cp.vl["Steering_Torque"]["Steer_Torque_Sensor"]
     ret.steeringTorqueEps = cp.vl["Steering_Torque"]["Steer_Torque_Output"]
+    ret.steeringRateDeg = (ret.steeringAngleDeg - self.prev_steer_angle) / DT_CTRL
+    self.prev_steer_angle = ret.steeringAngleDeg
 
     steer_threshold = 75 if self.CP.carFingerprint in PREGLOBAL_CARS else 80
     ret.steeringPressed = abs(ret.steeringTorque) > steer_threshold

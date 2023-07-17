@@ -44,7 +44,7 @@ class CarController:
         apply_steer_req = 0
 
       # Count up to MAX_STEER_RATE_FRAMES, at which point we need to cut torque to avoid a steering fault
-      if CC.latActive and self.CP.carFingerprint in SUBARU_RATE_LIMITED and True:
+      if CC.latActive and self.CP.carFingerprint in SUBARU_RATE_LIMITED and abs(CS.out.steeringRateDeg) > MAX_STEER_RATE:
         self.steer_rate_counter += 1
       else:
         self.steer_rate_counter = 0
