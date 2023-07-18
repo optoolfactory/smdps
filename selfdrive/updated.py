@@ -262,17 +262,19 @@ class Updater:
     self.params.put_bool("UpdaterFetchAvailable", self.update_available)
     self.params.put("UpdaterAvailableBranches", ','.join(self.branches.keys()))
 
-    last_update = datetime.datetime.utcnow()
+    try:
+      t = self.params.get("LastUpdateTime", encoding='utf8')
+      last_update = datetime.datetime.fromisoformat(t)
+    except (TypeError, ValueError):
+      last_update = None
+
+    if last_update is None or datetime.datetime.utcnow() > last_update:
+      last_update = datetime.datetime.utcnow()
+    
     if failed_count == 0:
       t = last_update.isoformat()
       self.params.put("LastUpdateTime", t.encode('utf8'))
-    else:
-      try:
-        t = self.params.get("LastUpdateTime", encoding='utf8')
-        last_update = datetime.datetime.fromisoformat(t)
-      except (TypeError, ValueError):
-        pass
-
+    
     if exception is None:
       self.params.remove("LastUpdateException")
     else:
