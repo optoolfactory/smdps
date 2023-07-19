@@ -60,9 +60,13 @@ mat3 update_calibration(Eigen::Vector3d device_from_calib_euler, bool wide_camer
 void run_model(ModelState &model, VisionIpcClient &vipc_client_main, VisionIpcClient &vipc_client_extra, bool main_wide_camera, bool use_extra_client) {
   // messaging
   PubMaster pm({"modelV2", "cameraOdometry"});
-  SubMaster sm({"lateralPlan", "roadCameraState", "liveCalibration", "driverMonitoringState", "navModel"});
-
-  Params params;
+//<<<<<<< HEAD
+//  SubMaster sm({"lateralPlan", "roadCameraState", "liveCalibration", "driverMonitoringState", "navModel"});
+//
+//  Params params;
+//=======
+  SubMaster sm({"lateralPlan", "roadCameraState", "liveCalibration", "driverMonitoringState"});
+//>>>>>>> parent of aadd9ae26 (Enable nav features in modeld (#28448))
 
   // setup filter to track dropped frames
   FirstOrderFilter frame_dropped_filter(0., 10., 1. / MODEL_FREQ);
@@ -73,7 +77,6 @@ void run_model(ModelState &model, VisionIpcClient &vipc_client_main, VisionIpcCl
 
   mat3 model_transform_main = {};
   mat3 model_transform_extra = {};
-  bool nav_enabled = false;
   bool live_calib_seen = false;
   float driving_style[DRIVING_STYLE_LEN] = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0};
   float nav_features[NAV_FEATURE_LEN] = {0};
@@ -139,24 +142,27 @@ void run_model(ModelState &model, VisionIpcClient &vipc_client_main, VisionIpcCl
       vec_desire[desire] = 1.0;
     }
 
-    // Enable/disable nav features
-    uint64_t timestamp_llk = sm["navModel"].getNavModel().getLocationMonoTime();
-    bool nav_valid = sm["navModel"].getValid() && (nanos_since_boot() - timestamp_llk < 1e9);
-    bool use_nav = nav_valid && params.getBool("ExperimentalMode");
-    if (!nav_enabled && use_nav) {
-      nav_enabled = true;
-    } else if (nav_enabled && !use_nav) {
-      memset(nav_features, 0, sizeof(float)*NAV_FEATURE_LEN);
-      nav_enabled = false;
-    }
-
-    if (nav_enabled && sm.updated("navModel")) {
-      auto nav_model_features = sm["navModel"].getNavModel().getFeatures();
-      for (int i=0; i<NAV_FEATURE_LEN; i++) {
-        nav_features[i] = nav_model_features[i];
-      }
-    }
-
+//<<<<<<< HEAD
+//    // Enable/disable nav features
+//    uint64_t timestamp_llk = sm["navModel"].getNavModel().getLocationMonoTime();
+//    bool nav_valid = sm["navModel"].getValid() && (nanos_since_boot() - timestamp_llk < 1e9);
+//    bool use_nav = nav_valid && params.getBool("ExperimentalMode");
+//    if (!nav_enabled && use_nav) {
+//      nav_enabled = true;
+//    } else if (nav_enabled && !use_nav) {
+//      memset(nav_features, 0, sizeof(float)*NAV_FEATURE_LEN);
+//      nav_enabled = false;
+//    }
+//
+//    if (nav_enabled && sm.updated("navModel")) {
+//      auto nav_model_features = sm["navModel"].getNavModel().getFeatures();
+//      for (int i=0; i<NAV_FEATURE_LEN; i++) {
+//        nav_features[i] = nav_model_features[i];
+//      }
+//    }
+//
+//=======
+//>>>>>>> parent of aadd9ae26 (Enable nav features in modeld (#28448))
     // tracked dropped frames
     uint32_t vipc_dropped_frames = meta_main.frame_id - last_vipc_frame_id - 1;
     float frames_dropped = frame_dropped_filter.update((float)std::min(vipc_dropped_frames, 10U));
