@@ -61,9 +61,9 @@
   },
   {
     "name": "system",
-    "url": "https://commadist.azureedge.net/agnosupdate-staging/system-edc6c283699ad214e12626745d2d1c56f8b9822e85adffe9411fcecc9de259d2.img.xz",
-    "hash": "c1149b63bea48e81f3c61f6ffbb27c3bfe1f196ed6da8bf3b360e42001c0424a",
-    "hash_raw": "edc6c283699ad214e12626745d2d1c56f8b9822e85adffe9411fcecc9de259d2",
+    "url": "https://commadist.azureedge.net/agnosupdate-staging/system-345760155ab0ffc273ff3c3e2e1e038bc589c62c83afd832928c6782522ebb71.img.xz",
+    "hash": "2e19c2bf1e5bd0a5613d7aa74f0155642dedcea5cd6c18e44aa94d05806b22d9",
+    "hash_raw": "345760155ab0ffc273ff3c3e2e1e038bc589c62c83afd832928c6782522ebb71",
     "size": 10737418240,
     "sparse": true,
     "full_check": false,
