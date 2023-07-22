@@ -12,6 +12,7 @@ Version 0.9.4 (2023-XX-XX)
 * Bookmarked segments are preserved on the device's storage
 * Ford Focus 2018 support
 * Subaru Forester 2022 support thanks to martinl!
+* Subaru Outback 2023 support thanks to martinl!
 * Kia Carnival 2023 support thanks to sunnyhaibin!
 
 Version 0.9.3 (2023-06-29)
