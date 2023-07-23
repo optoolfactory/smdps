@@ -54,6 +54,7 @@ class CAR:
   OUTBACK = "SUBARU OUTBACK 6TH GEN"
   OUTBACK_2023 = "SUBARU OUTBACK 7TH GEN"
   LEGACY = "SUBARU LEGACY 7TH GEN"
+  LEGACY_2023 = "SUBARU LEGACY 8TH GEN"
 
   # Pre-global
   FORESTER_PREGLOBAL = "SUBARU FORESTER 2017 - 2018"
@@ -79,6 +80,7 @@ CAR_INFO: Dict[str, Union[SubaruCarInfo, List[SubaruCarInfo]]] = {
   CAR.ASCENT: SubaruCarInfo("Subaru Ascent 2019-21", "All"),
   CAR.OUTBACK: SubaruCarInfo("Subaru Outback 2020-22", "All", car_parts=CarParts.common([CarHarness.subaru_b])),
   CAR.OUTBACK_2023: SubaruCarInfo("Subaru Outback 2023", "All", car_parts=CarParts.common([CarHarness.subaru_d])),
+  CAR.LEGACY_2023: SubaruCarInfo("Subaru Legacy 2023", "All", car_parts=CarParts.common([CarHarness.subaru_d])),
   CAR.LEGACY: SubaruCarInfo("Subaru Legacy 2020-22", "All", car_parts=CarParts.common([CarHarness.subaru_b])),
   CAR.IMPREZA: [
     SubaruCarInfo("Subaru Impreza 2017-19"),
@@ -576,6 +578,9 @@ FW_VERSIONS = {
   CAR.OUTBACK_2023: {
 
   },
+  CAR.LEGACY_2023: {
+
+  }
 }
 
 DBC = {
@@ -587,14 +592,18 @@ DBC = {
   CAR.OUTBACK: dbc_dict('subaru_global_2017_generated', None),
   CAR.OUTBACK_2023: dbc_dict('subaru_global_2017_generated', None),
   CAR.LEGACY: dbc_dict('subaru_global_2017_generated', None),
+  CAR.LEGACY_2023: dbc_dict('subaru_global_2017_generated', None),
   CAR.FORESTER_PREGLOBAL: dbc_dict('subaru_forester_2017_generated', None),
   CAR.LEGACY_PREGLOBAL: dbc_dict('subaru_outback_2015_generated', None),
   CAR.OUTBACK_PREGLOBAL: dbc_dict('subaru_outback_2015_generated', None),
   CAR.OUTBACK_PREGLOBAL_2018: dbc_dict('subaru_outback_2019_generated', None),
 }
 
-LKAS_ANGLE = (CAR.FORESTER_2022, CAR.OUTBACK_2023)
-ES_STATUS = (CAR.FORESTER_2022, CAR.OUTBACK_2023)
+# Cars that use angle based LKAS
+LKAS_ANGLE = (CAR.FORESTER_2022, CAR.OUTBACK_2023, CAR.LEGACY_2023)
+
+# Cars that require using ES_Status and ES_Dashstatus, since we haven't found an equivalent CruiseControl message
+ES_STATUS = (CAR.FORESTER_2022, CAR.OUTBACK_2023, CAR.LEGACY_2023)
 
 GLOBAL_GEN2 = (CAR.OUTBACK, CAR.LEGACY, CAR.OUTBACK_2023)
 PREGLOBAL_CARS = (CAR.FORESTER_PREGLOBAL, CAR.LEGACY_PREGLOBAL, CAR.OUTBACK_PREGLOBAL, CAR.OUTBACK_PREGLOBAL_2018)

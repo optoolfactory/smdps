@@ -12,7 +12,7 @@ class CarInterface(CarInterfaceBase):
   def _get_params(ret, candidate, fingerprint, car_fw, experimental_long, docs):
     ret.carName = "subaru"
     ret.radarUnavailable = True
-    ret.dashcamOnly = candidate in PREGLOBAL_CARS
+    ret.dashcamOnly = candidate in PREGLOBAL_CARS# or candidate in LKAS_ANGLE
     ret.autoResumeSng = False
 
     # Detect infotainment message sent from the camera
@@ -34,7 +34,6 @@ class CarInterface(CarInterfaceBase):
 
     ret.steerLimitTimer = 0.4
     ret.steerActuatorDelay = 0.1
-    CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning)
 
     if candidate == CAR.ASCENT:
       ret.mass = 2031. + STD_CARGO_KG
@@ -78,13 +77,12 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0., 14., 23.], [0., 14., 23.]]
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.01, 0.065, 0.2], [0.001, 0.015, 0.025]]
 
-    elif candidate in (CAR.OUTBACK, CAR.LEGACY, CAR.OUTBACK_2023):
+    elif candidate in (CAR.OUTBACK, CAR.LEGACY, CAR.OUTBACK_2023, CAR.LEGACY_2023):
       ret.mass = 1568. + STD_CARGO_KG
       ret.wheelbase = 2.67
       ret.centerToFront = ret.wheelbase * 0.5
       ret.steerRatio = 17
       ret.steerActuatorDelay = 0.1
-      CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning)
 
     elif candidate in (CAR.FORESTER_PREGLOBAL, CAR.OUTBACK_PREGLOBAL_2018):
       ret.safetyConfigs[0].safetyParam = 1  # Outback 2018-2019 and Forester have reversed driver torque signal
@@ -113,6 +111,7 @@ class CarInterface(CarInterfaceBase):
       ret.steerControlType = car.CarParams.SteerControlType.angle
     else:
       ret.steerControlType = car.CarParams.SteerControlType.torque
+      CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning)
 
     return ret
 
