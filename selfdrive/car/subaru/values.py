@@ -576,10 +576,38 @@ FW_VERSIONS = {
     ],
   },
   CAR.OUTBACK_2023: {
-
+    (Ecu.abs, 0x7b0, None): [
+      b'\xa1 #\x17\x00',
+    ],
+    (Ecu.eps, 0x746, None): [
+      b'+\xc0\x12\x11\x00',
+    ],
+    (Ecu.fwdCamera, 0x787, None): [
+      b'\t!\x08\x046\x05!\x08\x01/',
+    ],
+    (Ecu.engine, 0x7e0, None): [
+    
+    ],
+    (Ecu.transmission, 0x7e1, None): [
+    
+    ]
   },
   CAR.LEGACY_2023: {
+    (Ecu.abs, 0x7b0, None): [
 
+    ],
+    (Ecu.eps, 0x746, None): [
+
+    ],
+    (Ecu.fwdCamera, 0x787, None): [
+
+    ],
+    (Ecu.engine, 0x7e0, None): [
+    
+    ],
+    (Ecu.transmission, 0x7e1, None): [
+    
+    ]
   }
 }
 
