@@ -109,6 +109,11 @@ class CarInterface(CarInterfaceBase):
     else:
       raise ValueError(f"unknown car: {candidate}")
 
+    if candidate in LKAS_ANGLE:
+      ret.steerControlType = car.CarParams.SteerControlType.angle
+    else:
+      ret.steerControlType = car.CarParams.SteerControlType.torque
+
     return ret
 
   # returns a car.CarState
