@@ -535,6 +535,7 @@ python-versions = "*"
 [package.source]
 type = "url"
 url = "https://github.com/commaai/carla/releases/download/3.11.4/carla-0.9.14-cp311-cp311-linux_x86_64.whl"
+
 [[package]]
 name = "casadi"
 version = "3.6.3"
@@ -2668,14 +2669,6 @@ python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*
 setuptools = "*"
 
 [[package]]
-name = "nose"
-version = "1.3.7"
-description = "nose extends unittest to make testing easier"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "notebook"
 version = "6.5.4"
 description = "A web-based notebook environment for interactive computing"
@@ -2843,6 +2836,7 @@ numpy = [
 [package.source]
 type = "url"
 url = "https://github.com/commaai/opencv-python-builder/releases/download/4.5.5.64%2Bcu118-cp311/opencv_python_headless-4.5.5.64-cp311-cp311-manylinux_2_31_x86_64.whl"
+
 [[package]]
 name = "osmium"
 version = "3.6.0"
@@ -3463,7 +3457,7 @@ develop = false
 numpy = "*"
 
 [package.extras]
-dev = ["PytorchNvCodec @ file:///home/batman/.cache/pypoetry/virtualenvs/openpilot-onTUh5oV-py3.11/src/VideoProcessingFramework/src/PytorchNvCodec", "onnx", "opencv-python", "pycuda", "pyopengl", "tensorrt", "torch", "torchvision"]
+dev = ["PytorchNvCodec", "onnx", "opencv-python", "pycuda", "pyopengl", "tensorrt", "torch", "torchvision"]
 samples = ["PytorchNvCodec @ git+https://github.com/NVIDIA/VideoProcessingFramework.git#subdirectory=src/PytorchNvCodec/", "onnx", "opencv-python", "pycuda", "pyopengl", "tensorrt", "torch", "torchvision", "tqdm"]
 tensorrt = ["PytorchNvCodec @ git+https://github.com/NVIDIA/VideoProcessingFramework.git#subdirectory=src/PytorchNvCodec/", "torch", "torchvision"]
 tests = ["PytorchNvCodec @ git+https://github.com/NVIDIA/VideoProcessingFramework.git#subdirectory=src/PytorchNvCodec/", "opencv-python", "pycuda", "pyopengl", "torch", "torchvision"]
@@ -4658,6 +4652,7 @@ opt-einsum = ["opt-einsum (>=3.3)"]
 [package.source]
 type = "url"
 url = "https://download.pytorch.org/whl/cu118/torch-2.0.1%2Bcu118-cp311-cp311-linux_x86_64.whl"
+
 [[package]]
 name = "torchsummary"
 version = "1.5.1"
@@ -4686,6 +4681,7 @@ scipy = ["scipy"]
 [package.source]
 type = "url"
 url = "https://download.pytorch.org/whl/cu118/torchvision-0.15.2%2Bcu118-cp311-cp311-linux_x86_64.whl"
+
 [[package]]
 name = "tornado"
 version = "6.3.2"
@@ -5144,7 +5140,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.11"
-content-hash = "571bb6cff08ad22a78f005a7635909a399a495596ca387d59dfc4d8028f7484c"
+content-hash = "4d0cc4b21d5c400e874754367d7dcf9ada3b39c94cbafa27984d695daae5ee84"
 
 [metadata.files]
 adal = [
@@ -7632,11 +7628,6 @@ networkx = [
 nodeenv = [
     {file = "nodeenv-1.8.0-py2.py3-none-any.whl", hash = "sha256:df865724bb3c3adc86b3876fa209771517b0cfe596beff01a92700e0e8be4cec"},
     {file = "nodeenv-1.8.0.tar.gz", hash = "sha256:d51e0c37e64fbf47d017feac3145cdbb58836d7eee8c6f6d3b6880c5456227d2"},
-]
-nose = [
-    {file = "nose-1.3.7-py2-none-any.whl", hash = "sha256:dadcddc0aefbf99eea214e0f1232b94f2fa9bd98fa8353711dacb112bfcbbb2a"},
-    {file = "nose-1.3.7-py3-none-any.whl", hash = "sha256:9ff7c6cc443f8c51994b34a667bbcf45afd6d945be7477b52e97516fd17c53ac"},
-    {file = "nose-1.3.7.tar.gz", hash = "sha256:f1bffef9cbc82628f6e7d7b40d7e255aefaa1adb6a1b1d26c69a8b79e6208a98"},
 ]
 notebook = [
     {file = "notebook-6.5.4-py3-none-any.whl", hash = "sha256:dd17e78aefe64c768737b32bf171c1c766666a21cc79a44d37a1700771cab56f"},
