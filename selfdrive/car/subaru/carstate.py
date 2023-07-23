@@ -56,7 +56,7 @@ class CarState(CarStateBase):
     if self.car_fingerprint in ES_STATUS:
       cp_es_status = cp_body if self.car_fingerprint in GLOBAL_GEN2 else cp_cam
       ret.cruiseState.enabled = cp_es_status.vl["ES_Status"]['Cruise_Activated'] != 0
-      ret.cruiseState.available = cp_es_status.vl["ES_DashStatus"]['Cruise_On'] != 0
+      ret.cruiseState.available = cp_cam.vl["ES_DashStatus"]['Cruise_On'] != 0
     else:
       cp_cruise = cp_body if self.car_fingerprint in GLOBAL_GEN2 else cp
       ret.cruiseState.enabled = cp_cruise.vl["CruiseControl"]["Cruise_Activated"] != 0
