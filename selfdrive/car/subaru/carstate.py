@@ -13,6 +13,7 @@ class CarState(CarStateBase):
     super().__init__(CP)
     can_define = CANDefine(DBC[CP.carFingerprint]["pt"])
     self.shifter_values = can_define.dv["Transmission"]["Gear"]
+
     self.prev_angle = 0
     self.prev_angle_counter = 0
 
