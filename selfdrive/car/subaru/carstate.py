@@ -56,10 +56,10 @@ class CarState(CarStateBase):
       STEERING_FREQUENCY = 2
       ret.steeringRateDeg = (ret.steeringAngleDeg - self.prev_angle) / (DT_CTRL * STEERING_FREQUENCY)
     
-    angle_counter = cp.vl["Steering_Torque"]["COUNTER"]
-    if angle_counter != self.prev_angle_counter:
-      self.prev_angle = ret.steeringAngleDeg
-      self.prev_angle_counter = angle_counter
+      angle_counter = cp.vl["Steering_Torque"]["COUNTER"]
+      if angle_counter != self.prev_angle_counter:
+        self.prev_angle = ret.steeringAngleDeg
+        self.prev_angle_counter = angle_counter
 
     ret.steeringTorque = cp.vl["Steering_Torque"]["Steer_Torque_Sensor"]
     ret.steeringTorqueEps = cp.vl["Steering_Torque"]["Steer_Torque_Output"]
