@@ -48,7 +48,6 @@ private:
     p.setPen(Qt::NoPen);
     p.setBrush(QColor(0, 0, 0, 166));
     p.drawEllipse(center, btn_size / 2, btn_size / 2);
-    qDebug() << opacity;
     p.setOpacity(isDown() ? 0.6 : opacity);
     p.drawPixmap((btn_size - img_size) / 2, (btn_size - img_size) / 2, img);
   }
