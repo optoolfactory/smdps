@@ -30,16 +30,12 @@ private:
   Alert alert = {};
 };
 
+// Base class for all circular onroad buttons
 class OnroadButton : public QPushButton {
   Q_OBJECT
 
 public:
-//  explicit OnroadButton(QWidget *parent = 0);
-  explicit OnroadButton(QWidget *parent = 0) {
-
-  }
-
-//  void updateState(const UIState &s);
+  explicit OnroadButton(QWidget *parent = 0) : QPushButton(parent) {}
 
 private:
   void paintEvent(QPaintEvent *event) override {
@@ -47,31 +43,22 @@ private:
     p.setRenderHint(QPainter::Antialiasing);
 
     QPoint center(btn_size / 2, btn_size / 2);
-//    QPixmap img = experimental_mode ? experimental_img : engage_img;
 
     p.setOpacity(1.0);
     p.setPen(Qt::NoPen);
     p.setBrush(QColor(0, 0, 0, 166));
     p.drawEllipse(center, btn_size / 2, btn_size / 2);
-  //  p.setOpacity((isDown() || !engageable) ? 0.6 : 1.0);
     qDebug() << opacity;
     p.setOpacity(isDown() ? 0.6 : opacity);
     p.drawPixmap((btn_size - img_size) / 2, (btn_size - img_size) / 2, img);
   }
-//  void changeMode();
 
-  float opacity = 1.0;
+  qreal opacity = 1.0;
   QPixmap img;
-//  Params params;
-//  QPixmap engage_img;
-//  QPixmap experimental_img;
-//  bool experimental_mode;
-//  bool engageable;
 
 protected:
-  void setOpacity(float _opacity) { opacity = _opacity; }
+  void setOpacity(qreal _opacity) { opacity = _opacity; }
   void setIcon(QPixmap _img) { img = _img; }
-
 };
 
 class ExperimentalButton : public OnroadButton {
@@ -82,7 +69,6 @@ public:
   void updateState(const UIState &s);
 
 private:
-//  void paintEvent(QPaintEvent *event) override;
   void changeMode();
 
   Params params;
