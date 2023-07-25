@@ -178,16 +178,19 @@ void OnroadAlerts::paintEvent(QPaintEvent *event) {
 }
 
 // ExperimentalButton
-ExperimentalButton::ExperimentalButton(QWidget *parent) : experimental_mode(false), engageable(false), QPushButton(parent) {
+ExperimentalButton::ExperimentalButton(QWidget *parent) : experimental_mode(false), engageable(false), OnroadButton(parent) {
   setFixedSize(btn_size, btn_size);
 
   params = Params();
   engage_img = loadPixmap("../assets/img_chffr_wheel.png", {img_size, img_size});
   experimental_img = loadPixmap("../assets/img_experimental.svg", {img_size, img_size});
   QObject::connect(this, &QPushButton::clicked, this, &ExperimentalButton::changeMode);
+  setIcon(engage_img);
+//  setOpacity(1);
 }
 
 void ExperimentalButton::changeMode() {
+  qDebug() << "clicked!";
   const auto cp = (*uiState()->sm)["carParams"].getCarParams();
   bool can_change = hasLongitudinalControl(cp) && params.getBool("ExperimentalModeConfirmed");
   if (can_change) {
@@ -200,25 +203,29 @@ void ExperimentalButton::updateState(const UIState &s) {
   bool eng = cs.getEngageable() || cs.getEnabled();
   if ((cs.getExperimentalMode() != experimental_mode) || (eng != engageable)) {
     engageable = eng;
+    setOpacity(engageable ? 1.0 : 0.6);
+//    setDown(engageable);
     experimental_mode = cs.getExperimentalMode();
+    setIcon(experimental_mode ? experimental_img : engage_img);
     update();
   }
 }
 
-void ExperimentalButton::paintEvent(QPaintEvent *event) {
-  QPainter p(this);
-  p.setRenderHint(QPainter::Antialiasing);
-
-  QPoint center(btn_size / 2, btn_size / 2);
-  QPixmap img = experimental_mode ? experimental_img : engage_img;
-
-  p.setOpacity(1.0);
-  p.setPen(Qt::NoPen);
-  p.setBrush(QColor(0, 0, 0, 166));
-  p.drawEllipse(center, btn_size / 2, btn_size / 2);
-  p.setOpacity((isDown() || !engageable) ? 0.6 : 1.0);
-  p.drawPixmap((btn_size - img_size) / 2, (btn_size - img_size) / 2, img);
-}
+//void ExperimentalButton::paintEvent(QPaintEvent *event) {
+//  QPainter p(this);
+//  p.setRenderHint(QPainter::Antialiasing);
+//
+//  QPoint center(btn_size / 2, btn_size / 2);
+//  QPixmap img = experimental_mode ? experimental_img : engage_img;
+//
+//  p.setOpacity(1.0);
+//  p.setPen(Qt::NoPen);
+//  p.setBrush(QColor(0, 0, 0, 166));
+//  p.drawEllipse(center, btn_size / 2, btn_size / 2);
+////  p.setOpacity((isDown() || !engageable) ? 0.6 : 1.0);
+//  p.setOpacity(isDown() ? 0.6 : opacity);
+//  p.drawPixmap((btn_size - img_size) / 2, (btn_size - img_size) / 2, img);
+//}
 
 
 // Window that shows camera view and variety of info drawn on top
