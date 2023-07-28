@@ -13,7 +13,10 @@ class CarState(CarStateBase):
     super().__init__(CP)
     can_define = CANDefine(DBC[CP.carFingerprint]["pt"])
     self.shifter_values = can_define.dv["Transmission"]["Gear"]
+
     self.prev_angle = 0
+    self.prev_angle_counter = 0
+    self.prev_rate = 0
 
   def update(self, cp, cp_cam, cp_body):
     ret = car.CarState.new_message()
@@ -48,11 +51,19 @@ class CarState(CarStateBase):
     can_gear = int(cp.vl["Transmission"]["Gear"])
     ret.gearShifter = self.parse_gear_shifter(self.shifter_values.get(can_gear, None))
 
-    ret.steeringAngleDeg = cp.vl["Steering"]["Steering_Angle"]
+    ret.steeringAngleDeg = cp.vl["Steering_Torque"]["Steering_Angle"]
     
     if self.car_fingerprint in STEER_LIMITED:
       # have not found a steering rate message. calculate it manually
-      ret.steeringRateDeg = (ret.steeringAngleDeg - self.prev_angle) / DT_CTRL
+      angle_counter = cp.vl["Steering_Torque"]["COUNTER"]
+      if angle_counter != self.prev_angle_counter:
+        STEERING_FREQUENCY = 2
+        ret.steeringRateDeg = (ret.steeringAngleDeg - self.prev_angle) / (DT_CTRL * STEERING_FREQUENCY)
+        self.prev_angle = ret.steeringAngleDeg
+        self.prev_angle_counter = angle_counter
+        self.prev_rate = ret.steeringRateDeg
+      else:
+        ret.steeringRateDeg = self.prev_rate
 
     ret.steeringTorque = cp.vl["Steering_Torque"]["Steer_Torque_Sensor"]
     ret.steeringTorqueEps = cp.vl["Steering_Torque"]["Steer_Torque_Output"]
@@ -158,7 +169,6 @@ class CarState(CarStateBase):
       ("Steer_Torque_Sensor", "Steering_Torque"),
       ("Steer_Torque_Output", "Steering_Torque"),
       ("Steering_Angle", "Steering_Torque"),
-      ("Steering_Angle", "Steering"),
       ("Steer_Error_1", "Steering_Torque"),
       ("Brake_Pedal", "Brake_Pedal"),
       ("Throttle_Pedal", "Throttle"),
@@ -179,7 +189,6 @@ class CarState(CarStateBase):
       ("Brake_Pedal", 50),
       ("Transmission", 100),
       ("Steering_Torque", 50),
-      ("Steering", 50),
       ("BodyInfo", 1),
     ]
 
