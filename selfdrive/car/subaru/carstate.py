@@ -158,6 +158,7 @@ class CarState(CarStateBase):
       ("Steer_Torque_Sensor", "Steering_Torque"),
       ("Steer_Torque_Output", "Steering_Torque"),
       ("Steering_Angle", "Steering_Torque"),
+      ("Steering_Angle", "Steering"),
       ("Steer_Error_1", "Steering_Torque"),
       ("Brake_Pedal", "Brake_Pedal"),
       ("Throttle_Pedal", "Throttle"),
@@ -178,6 +179,7 @@ class CarState(CarStateBase):
       ("Brake_Pedal", 50),
       ("Transmission", 100),
       ("Steering_Torque", 50),
+      ("Steering", 50),
       ("BodyInfo", 1),
     ]
 
