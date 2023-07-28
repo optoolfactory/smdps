@@ -44,11 +44,13 @@ class CarController:
         apply_steer_req = 0
 
       if self.CP.carFingerprint in STEER_LIMITED:
-        self.steer_rate_counter, apply_steer_req = common_fault_avoidance(CS.out.steeringRateDeg, MAX_STEER_RATE, apply_steer_req,
-                                                                          self.steer_rate_counter, MAX_STEER_RATE_FRAMES)
+        self.steer_rate_counter, apply_steer_req = \
+          common_fault_avoidance(CS.out.steeringRateDeg, MAX_STEER_RATE, apply_steer_req, \
+                                 self.steer_rate_counter, MAX_STEER_RATE_FRAMES)
         
         # Any steering past 90 appears to cause temp fault
-        _, apply_steer_req = common_fault_avoidance(CS.out.steeringRateDeg, MAX_STEER_ANGLE, apply_steer_req)
+        _, apply_steer_req = common_fault_avoidance(CS.out.steeringAngleDeg, MAX_STEER_ANGLE, apply_steer_req, \
+                                                    max_request_frames=0)
 
       if self.CP.carFingerprint in PREGLOBAL_CARS:
         can_sends.append(subarucan.create_preglobal_steering_control(self.packer, apply_steer, CC.latActive))
