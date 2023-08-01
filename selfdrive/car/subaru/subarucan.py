@@ -209,5 +209,4 @@ def create_preglobal_es_distance(packer, cruise_button, es_distance_msg):
 
   values["Cruise_Button"] = cruise_button
   values["Checksum"] = subaru_preglobal_checksum(packer, values, "ES_Distance")
-
   return packer.make_can_msg("ES_Distance", CanBus.main, values)
