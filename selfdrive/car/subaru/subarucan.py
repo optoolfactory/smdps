@@ -43,7 +43,7 @@ def create_es_distance(packer, es_distance_msg, bus, pcm_cancel_cmd):
   values["COUNTER"] = (values["COUNTER"] + 1) % 0x10
   if pcm_cancel_cmd:
     values["Cruise_Cancel"] = 1
-  
+
   return packer.make_can_msg("ES_Distance", bus, values)
 
 
@@ -209,4 +209,5 @@ def create_preglobal_es_distance(packer, cruise_button, es_distance_msg):
 
   values["Cruise_Button"] = cruise_button
   values["Checksum"] = subaru_preglobal_checksum(packer, values, "ES_Distance")
+
   return packer.make_can_msg("ES_Distance", CanBus.main, values)
