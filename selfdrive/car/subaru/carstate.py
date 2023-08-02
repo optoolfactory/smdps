@@ -5,7 +5,7 @@ from opendbc.can.can_define import CANDefine
 from common.conversions import Conversions as CV
 from selfdrive.car.interfaces import CarStateBase
 from opendbc.can.parser import CANParser
-from selfdrive.car.subaru.values import DBC, CAR, GLOBAL_GEN2, PREGLOBAL_CARS, STEER_LIMITED, CanBus, SubaruFlags
+from selfdrive.car.subaru.values import DBC, CAR, GLOBAL_GEN2, PREGLOBAL_CARS, STEER_LIMITED_2020, CanBus, SubaruFlags
 
 
 class CarState(CarStateBase):
@@ -53,7 +53,7 @@ class CarState(CarStateBase):
 
     ret.steeringAngleDeg = cp.vl["Steering_Torque"]["Steering_Angle"]
     
-    if self.car_fingerprint in STEER_LIMITED:
+    if self.car_fingerprint in STEER_LIMITED_2020:
       # have not found a steering rate message. calculate it manually
       angle_counter = cp.vl["Steering_Torque"]["COUNTER"]
       if angle_counter != self.prev_angle_counter:
