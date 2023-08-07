@@ -7,8 +7,6 @@ MAX_STEER_DELTA = 11            # maximum amount of degrees the steering wheel c
 MAX_STEER_DELTA_FRAMES = 6      # tx control frames needed before torque can be cut, measured at 50hz, not 100hz
 STEER_DELTA_LOOKBACK_FRAME = 80 # which frame in the steer angle history (100hz) to compare to
 
-MAX_STEER_ANGLE = 88
-
 class CarController:
   def __init__(self, dbc_name, CP, VM):
     self.CP = CP
