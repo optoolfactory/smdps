@@ -1,11 +1,11 @@
+from collections import deque
 import copy
 from cereal import car
 from opendbc.can.can_define import CANDefine
 from common.conversions import Conversions as CV
 from selfdrive.car.interfaces import CarStateBase
 from opendbc.can.parser import CANParser
-from selfdrive.car.subaru.values import DBC, CAR, GLOBAL_GEN2, PREGLOBAL_CARS, STEER_LIMITED_2020, CanBus, SubaruFlags
-from selfdrive.controls.lib.drive_helpers import CanSignalRateCalculator
+from selfdrive.car.subaru.values import DBC, CAR, GLOBAL_GEN2, PREGLOBAL_CARS, CanBus, SubaruFlags
 
 
 class CarState(CarStateBase):
@@ -14,7 +14,7 @@ class CarState(CarStateBase):
     can_define = CANDefine(DBC[CP.carFingerprint]["pt"])
     self.shifter_values = can_define.dv["Transmission"]["Gear"]
 
-    self.angle_rate_calulator = CanSignalRateCalculator(2)
+    self.steer_angle_history = deque([0,]*100, 100)
 
   def update(self, cp, cp_cam, cp_body):
     ret = car.CarState.new_message()
@@ -50,10 +50,8 @@ class CarState(CarStateBase):
     ret.gearShifter = self.parse_gear_shifter(self.shifter_values.get(can_gear, None))
 
     ret.steeringAngleDeg = cp.vl["Steering_Torque"]["Steering_Angle"]
-    
-    if self.car_fingerprint in STEER_LIMITED_2020:
-      # have not found a steering rate message. calculate it manually
-      ret.steeringRateDeg = self.angle_rate_calulator.update(ret.steeringAngleDeg, cp.vl["Steering_Torque"]["COUNTER"])
+
+    self.steer_angle_history.appendleft(ret.steeringAngleDeg)
 
     ret.steeringTorque = cp.vl["Steering_Torque"]["Steer_Torque_Sensor"]
     ret.steeringTorqueEps = cp.vl["Steering_Torque"]["Steer_Torque_Output"]
