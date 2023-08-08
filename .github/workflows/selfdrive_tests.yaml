@@ -202,7 +202,7 @@ jobs:
 
   static_analysis:
     name: static analysis
-    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) &&  buildjet-4vcpu-ubuntu-2204 || ubuntu-20.04 }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2204' || 'ubuntu-20.04' }}
     steps:
     - uses: actions/checkout@v3
       with:
