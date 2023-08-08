@@ -435,9 +435,7 @@ def laikad_config_pubsub_callback(params, cfg, lr):
 
 
 def locationd_config_pubsub_callback(params, cfg, lr):
-  ublox = params.get_bool("UbloxAvailable")
-  sub_keys = ({"gpsLocation", } if ublox else {"gpsLocationExternal", })
-
+  sub_keys = ({"gnssMeasurements", })
   cfg.pubs = set(cfg.pubs) - sub_keys
 
 
@@ -495,7 +493,7 @@ CONFIGS = [
   ProcessConfig(
     proc_name="locationd",
     pubs=[
-      "cameraOdometry", "accelerometer", "gyroscope", "gpsLocationExternal",
+      "cameraOdometry", "accelerometer", "gyroscope", "gnssMeasurements",
       "liveCalibration", "carState", "carParams", "gpsLocation"
     ],
     subs=["liveLocationKalman"],
