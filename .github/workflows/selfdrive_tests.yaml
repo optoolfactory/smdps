@@ -31,7 +31,7 @@ env:
 jobs:
   build_release:
     name: build release
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-4vcpu-ubuntu-2204
     env:
       STRIPPED_DIR: /tmp/releasepilot
     steps:
@@ -71,7 +71,7 @@ jobs:
 
   build_all:
     name: build all
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-4vcpu-ubuntu-2204
     steps:
     - uses: actions/checkout@v3
       with:
@@ -177,7 +177,7 @@ jobs:
 
   docker_push:
     name: docker push
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-4vcpu-ubuntu-2204
     if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'commaai/openpilot'
     steps:
     - uses: actions/checkout@v3
@@ -202,7 +202,7 @@ jobs:
 
   static_analysis:
     name: static analysis
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-4vcpu-ubuntu-2204
     steps:
     - uses: actions/checkout@v3
       with:
@@ -215,7 +215,7 @@ jobs:
 
   valgrind:
     name: valgrind
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-4vcpu-ubuntu-2204
     steps:
     - uses: actions/checkout@v3
       with:
@@ -233,7 +233,7 @@ jobs:
 
   unit_tests:
     name: unit tests
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-4vcpu-ubuntu-2204
     steps:
     - uses: actions/checkout@v3
       with:
@@ -281,7 +281,7 @@ jobs:
 
   process_replay:
     name: process replay
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-4vcpu-ubuntu-2204
     steps:
     - uses: actions/checkout@v3
       with:
@@ -320,7 +320,7 @@ jobs:
 
   test_modeld:
     name: model tests
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-4vcpu-ubuntu-2204
     steps:
     - uses: actions/checkout@v3
       with:
@@ -349,7 +349,7 @@ jobs:
 
   test_cars:
     name: cars
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-4vcpu-ubuntu-2204
     strategy:
       fail-fast: false
       matrix:
@@ -381,7 +381,7 @@ jobs:
 
   car_docs_diff:
     name: PR comments
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-4vcpu-ubuntu-2204
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v3
