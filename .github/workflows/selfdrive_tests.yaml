@@ -103,14 +103,14 @@ jobs:
         echo 'EOF' >> $GITHUB_ENV
     - name: Restore scons cache
       id: scons-restore-cache
-      uses: actions/cache/restore@v3
+      uses: buildjet/cache/restore@v3
       with:
         path: ~/scons_cache
         key: macos_scons-${{ github.sha }}
         restore-keys: macos_scons-
     - name: Cache dependencies
       id: dependency-cache
-      uses: actions/cache@v3
+      uses: buildjet/cache@v3
       with:
         path: |
           ~/github_brew_cache_entries.txt
@@ -156,7 +156,7 @@ jobs:
         poetry run scons -j$(nproc) --cache-populate
     - name: Save scons cache
       id: scons-save-cache
-      uses: actions/cache/save@v3
+      uses: buildjet/cache/save@v3
       if: github.ref == 'refs/heads/master'
       with:
         path: ~/scons_cache
@@ -289,7 +289,7 @@ jobs:
     - uses: ./.github/workflows/setup
     - name: Cache test routes
       id: dependency-cache
-      uses: actions/cache@v3
+      uses: buildjet/cache@v3
       with:
         path: ~/comma_download_cache
         key: proc-replay-${{ hashFiles('.github/workflows/selfdrive_tests.yaml', 'selfdrive/test/process_replay/ref_commit') }}
@@ -361,7 +361,7 @@ jobs:
     - uses: ./.github/workflows/setup
     - name: Cache test routes
       id: dependency-cache
-      uses: actions/cache@v3
+      uses: buildjet/cache@v3
       with:
         path: ~/comma_download_cache
         key: car_models-${{ hashFiles('selfdrive/car/tests/test_models.py', 'selfdrive/car/tests/routes.py') }}-${{ matrix.job }}
