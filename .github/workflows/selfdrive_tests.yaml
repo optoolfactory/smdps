@@ -28,12 +28,10 @@ env:
 
   UNIT_TEST: coverage run --append -m unittest discover
 
-  ALTERNATE_RUNNER: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
-
 jobs:
   build_release:
     name: build release
-    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     env:
       STRIPPED_DIR: /tmp/releasepilot
     steps:
@@ -73,7 +71,7 @@ jobs:
 
   build_all:
     name: build all
-    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -179,7 +177,7 @@ jobs:
 
   docker_push:
     name: docker push
-    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'commaai/openpilot'
     steps:
     - uses: actions/checkout@v3
@@ -204,7 +202,7 @@ jobs:
 
   static_analysis:
     name: static analysis
-    runs-on: ${{ env.ALTERNATE_RUNNER }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -217,7 +215,7 @@ jobs:
 
   valgrind:
     name: valgrind
-    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -235,7 +233,7 @@ jobs:
 
   unit_tests:
     name: unit tests
-    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -283,7 +281,7 @@ jobs:
 
   process_replay:
     name: process replay
-    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -322,7 +320,7 @@ jobs:
 
   test_modeld:
     name: model tests
-    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -351,7 +349,7 @@ jobs:
 
   test_cars:
     name: cars
-    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     strategy:
       fail-fast: false
       matrix:
@@ -383,7 +381,7 @@ jobs:
 
   car_docs_diff:
     name: PR comments
-    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
+    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v3
