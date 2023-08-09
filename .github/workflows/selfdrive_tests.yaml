@@ -85,7 +85,7 @@ jobs:
     - name: Cleanup scons cache
       timeout-minutes: 2
       run: |
-          ${{ env.RUN }} "rm -rf ~/scons_cache/* && \
+          ${{ env.RUN }} "rm -rf /tmp/scons_cache/* && \
                           scons -j$(nproc) --cache-populate"
 
   build_mac:
@@ -152,7 +152,7 @@ jobs:
       if: github.ref == 'refs/heads/master'
       run: |
         source tools/openpilot_env.sh
-        rm -rf ~/scons_cache/*
+        rm -rf /tmp/scons_cache/*
         poetry run scons -j$(nproc) --cache-populate
     - name: Save scons cache
       id: scons-save-cache
@@ -372,7 +372,7 @@ jobs:
       run: |
         ${{ env.RUN }} "coverage run -m pytest selfdrive/car/tests/test_models.py && \
                         coverage xml && \
-                        chmod -R 777 ~/comma_download_cache"
+                        chmod -R 777 /tmp/comma_download_cache"
       env:
         NUM_JOBS: 5
         JOB_ID: ${{ matrix.job }}
