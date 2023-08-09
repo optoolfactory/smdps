@@ -28,10 +28,12 @@ env:
 
   UNIT_TEST: coverage run --append -m unittest discover
 
+  ALTERNATE_RUNNER: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
+
 jobs:
   build_release:
     name: build release
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
     env:
       STRIPPED_DIR: /tmp/releasepilot
     steps:
@@ -71,7 +73,7 @@ jobs:
 
   build_all:
     name: build all
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -177,7 +179,7 @@ jobs:
 
   docker_push:
     name: docker push
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
     if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'commaai/openpilot'
     steps:
     - uses: actions/checkout@v3
@@ -202,7 +204,7 @@ jobs:
 
   static_analysis:
     name: static analysis
-    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-4vcpu-ubuntu-2204' || 'ubuntu-20.04' }}
+    runs-on: ${{ env.ALTERNATE_RUNNER }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -215,7 +217,7 @@ jobs:
 
   valgrind:
     name: valgrind
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -233,7 +235,7 @@ jobs:
 
   unit_tests:
     name: unit tests
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -281,7 +283,7 @@ jobs:
 
   process_replay:
     name: process replay
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -320,7 +322,7 @@ jobs:
 
   test_modeld:
     name: model tests
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -349,7 +351,7 @@ jobs:
 
   test_cars:
     name: cars
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
     strategy:
       fail-fast: false
       matrix:
@@ -381,7 +383,7 @@ jobs:
 
   car_docs_diff:
     name: PR comments
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ${{ env.ALTERNATIVE_RUNNER }}
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v3
