@@ -246,7 +246,8 @@ jobs:
       timeout-minutes: 40
       run: |
         ${{ env.RUN }} "export SKIP_LONG_TESTS=1 && \
-                       ./tests_split.sh &&
+                        export UNIT_TEST=${{env.UNIT_TEST}} && \
+                       ./tests_split.sh && \
                         coverage xml"
     - name: "Upload coverage to Codecov"
       uses: codecov/codecov-action@v3
