@@ -31,7 +31,6 @@ env:
 jobs:
   build_release:
     name: build release
-    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-8vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
     env:
       STRIPPED_DIR: /tmp/releasepilot
     steps:
@@ -103,14 +102,14 @@ jobs:
         echo 'EOF' >> $GITHUB_ENV
     - name: Restore scons cache
       id: scons-restore-cache
-      uses: buildjet/cache/restore@v3
+      uses: actions/cache/restore@v3
       with:
         path: ~/scons_cache
         key: macos_scons-${{ github.sha }}
         restore-keys: macos_scons-
     - name: Cache dependencies
       id: dependency-cache
-      uses: buildjet/cache@v3
+      uses: actions/cache@v3
       with:
         path: |
           ~/github_brew_cache_entries.txt
@@ -156,7 +155,7 @@ jobs:
         poetry run scons -j$(nproc) --cache-populate
     - name: Save scons cache
       id: scons-save-cache
-      uses: buildjet/cache/save@v3
+      uses: actions/cache/save@v3
       if: github.ref == 'refs/heads/master'
       with:
         path: ~/scons_cache
@@ -177,7 +176,7 @@ jobs:
 
   docker_push:
     name: docker push
-    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-8vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
+    runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'commaai/openpilot'
     steps:
     - uses: actions/checkout@v3
@@ -202,7 +201,7 @@ jobs:
 
   static_analysis:
     name: static analysis
-    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-8vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
       with:
@@ -215,7 +214,7 @@ jobs:
 
   valgrind:
     name: valgrind
-    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-8vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
       with:
@@ -233,7 +232,7 @@ jobs:
 
   unit_tests:
     name: unit tests
-    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-8vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
       with:
@@ -246,8 +245,35 @@ jobs:
       timeout-minutes: 40
       run: |
         ${{ env.RUN }} "export SKIP_LONG_TESTS=1 && \
-                        export UNIT_TEST="${{env.UNIT_TEST}}" && \
-                       ./tests_split.sh && \
+                        $UNIT_TEST common && \
+                        $UNIT_TEST opendbc/can && \
+                        $UNIT_TEST selfdrive/boardd && \
+                        $UNIT_TEST selfdrive/controls && \
+                        $UNIT_TEST selfdrive/monitoring && \
+                        $UNIT_TEST system/loggerd && \
+                        $UNIT_TEST selfdrive/car && \
+                        $UNIT_TEST selfdrive/locationd && \
+                        $UNIT_TEST selfdrive/test/longitudinal_maneuvers && \
+                        $UNIT_TEST system/tests && \
+                        $UNIT_TEST system/ubloxd && \
+                        selfdrive/locationd/test/_test_locationd_lib.py && \
+                        ./system/ubloxd/tests/test_glonass_runner && \
+                        $UNIT_TEST selfdrive/athena && \
+                        $UNIT_TEST selfdrive/thermald && \
+                        $UNIT_TEST system/hardware/tici && \
+                        $UNIT_TEST tools/lib/tests && \
+                        ./selfdrive/ui/tests/create_test_translations.sh && \
+                        QT_QPA_PLATFORM=offscreen ./selfdrive/ui/tests/test_translations && \
+                        ./selfdrive/ui/tests/test_translations.py && \
+                        ./common/tests/test_util && \
+                        ./common/tests/test_swaglog && \
+                        ./selfdrive/boardd/tests/test_boardd_usbprotocol && \
+                        ./system/loggerd/tests/test_logger &&\
+                        ./system/proclogd/tests/test_proclog && \
+                        ./tools/replay/tests/test_replay && \
+                        ./tools/cabana/tests/test_cabana && \
+                        ./system/camerad/test/ae_gray_test && \
+                        ./selfdrive/test/process_replay/test_fuzzy.py && \
                         coverage xml"
     - name: "Upload coverage to Codecov"
       uses: codecov/codecov-action@v3
@@ -262,7 +288,7 @@ jobs:
     - uses: ./.github/workflows/setup
     - name: Cache test routes
       id: dependency-cache
-      uses: buildjet/cache@v3
+      uses: actions/cache@v3
       with:
         path: ~/comma_download_cache
         key: proc-replay-${{ hashFiles('.github/workflows/selfdrive_tests.yaml', 'selfdrive/test/process_replay/ref_commit') }}
@@ -293,7 +319,7 @@ jobs:
 
   test_modeld:
     name: model tests
-    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-8vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
       with:
@@ -334,7 +360,7 @@ jobs:
     - uses: ./.github/workflows/setup
     - name: Cache test routes
       id: dependency-cache
-      uses: buildjet/cache@v3
+      uses: actions/cache@v3
       with:
         path: ~/comma_download_cache
         key: car_models-${{ hashFiles('selfdrive/car/tests/test_models.py', 'selfdrive/car/tests/routes.py') }}-${{ matrix.job }}
@@ -354,7 +380,7 @@ jobs:
 
   car_docs_diff:
     name: PR comments
-    runs-on: ${{ ((github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push')) && 'buildjet-8vcpu-ubuntu-2004' || 'ubuntu-20.04' }}
+    runs-on: ubuntu-20.04
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v3
