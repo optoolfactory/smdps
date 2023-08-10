@@ -29,7 +29,9 @@ runs:
         restore-keys: |
           scons-${{ env.CACHE_COMMIT_DATE }}-
           scons-
-
+    - id: buildx-setup
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
     # build our docker image
     - shell: bash
       run: eval ${{ env.BUILD }}
