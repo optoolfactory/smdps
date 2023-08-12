@@ -162,7 +162,7 @@ jobs:
       uses: actions/cache/save@v3
       if: github.ref == 'refs/heads/master'
       with:
-        path: ~/scons_cache
+        path: /tmp/scons_cache
         key: macos_scons-${{ github.sha }}
     - name: Pre Cache - Remove pre-existing Homebrew packages
       if: steps.dependency-cache.outputs.cache-hit != 'true'

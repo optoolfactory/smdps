@@ -21,6 +21,7 @@ runs:
         restore-keys: |
           scons-${{ env.CACHE_COMMIT_DATE }}-
           scons-
+
     # build our docker image
     - shell: bash
       run: eval ${{ env.BUILD }}
