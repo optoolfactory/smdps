@@ -43,7 +43,7 @@ while true; do
     sudo systemctl start ssh
   fi
 
-  if ! pgrep -f 'ciui.py'; then
+  if ! pgrep -f 'ciui.py' > /dev/null 2>&1; then
     echo 'starting UI'
     cp $SOURCE_DIR/selfdrive/test/ciui.py /data/
     /data/ciui.py &
