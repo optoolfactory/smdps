@@ -45,5 +45,6 @@ class Window(QWidget):
 
 if __name__ == "__main__":
   app = QApplication([])
-  set_main_window(Window())
+  w = Window()
+  set_main_window(w)
   app.exec_()
