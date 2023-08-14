@@ -4,14 +4,22 @@ on:
     - cron: '30 1 * * *'
   push:
 
+env:
+  DAYS_BEFORE_CLOSE: 7
+  DAYS_BEFORE_STALE: 30
+
 jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/stale@v8
         with:
-          stale-issue-message: 'Message to comment on stale issues. If none provided, will not mark issues stale'
-          stale-pr-message: 'Message to comment on stale PRs. If none provided, will not mark PRs stale'
-          delete-branch: true
+          stale-pr-message: 'This PR has had no activity for ${{ DAYS_BEFORE_STALE }} days. It will be automatically closed in ${{ DAYS_BEFORE_CLOSE }} days.'
+          delete-branch: ${{ github.event.pull_request.head.repo.full_name != 'commaai/openpilot' }} # only delete branches on the main repo 
           debug-only: true
           exempt-milestones: true
+          except-pr-labels:
+            - "Work In Progress"
+          days-before-stale: $DAYS_BEFORE_STALE
+          days-before-close: $DAYS_BEFORE_CLOSE
+
