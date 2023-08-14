@@ -15,10 +15,13 @@ jobs:
       - uses: actions/stale@v8
         with:
           stale-pr-message: 'This PR has had no activity for ${{ env.DAYS_BEFORE_STALE }} days. It will be automatically closed in ${{ env.DAYS_BEFORE_CLOSE }} days.'
-          delete-branch: ${{ github.event.pull_request.head.repo.full_name != 'commaai/openpilot' }} # only delete branches on the main repo 
+          days-before-issue-stale: -1 # ignore issues for now
+          delete-branch: ${{ github.event.pull_request.head.repo.full_name != 'commaai/openpilot' }} # only delete branches on the main repo
           debug-only: true
           exempt-milestones: true
-          exempt-pr-labels: "Work In Progress"
+          only-issue-labels: "bug" # only close issues with "bug" label
+          exempt-pr-labels: "Work In Progress" # if wip, don't mark as stale
           days-before-stale: ${{ env.DAYS_BEFORE_STALE }}
           days-before-close: ${{ env.DAYS_BEFORE_CLOSE }}
+          ignore-update: false # comments or pushes will reset the timer
 
