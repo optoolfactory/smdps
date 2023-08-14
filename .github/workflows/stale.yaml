@@ -23,5 +23,5 @@ jobs:
           exempt-pr-labels: "Work In Progress" # if wip, don't mark as stale
           days-before-stale: ${{ env.DAYS_BEFORE_STALE }}
           days-before-close: ${{ env.DAYS_BEFORE_CLOSE }}
-          ignore-update: false # comments or pushes will reset the timer
+          ignore-update: true # comments or pushes won't reset the timer, encourage stuff to get merged faster
 
