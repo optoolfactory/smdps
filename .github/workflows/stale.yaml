@@ -19,6 +19,6 @@ jobs:
           debug-only: true
           exempt-milestones: true
           exempt-pr-labels: "Work In Progress"
-          days-before-stale: $DAYS_BEFORE_STALE
-          days-before-close: $DAYS_BEFORE_CLOSE
+          days-before-stale: ${{ env.DAYS_BEFORE_STALE }}
+          days-before-close: ${{ env.DAYS_BEFORE_CLOSE }}
 
