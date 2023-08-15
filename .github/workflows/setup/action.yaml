@@ -5,7 +5,9 @@ runs:
   steps:
     - shell: bash
       name: Run ls -lh to see permissions
-      run: ls -lh
+      run: |
+        ls -lh
+        ls -lh tools
     # do this after checkout to ensure our custom LFS config is used to pull from GitLab
     - shell: bash
       run: git lfs pull
