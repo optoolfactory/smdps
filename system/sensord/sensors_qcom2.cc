@@ -88,7 +88,9 @@ void interrupt_loop(std::vector<Sensor *>& sensors,
   }
 }
 
-void polling_loop(std::vector<Sensor *>& sensors, std::map<Sensor*, std::string>& sensor_service, int poll_interval_ms, PubMaster& pm_int) {
+void polling_loop(std::vector<Sensor *>& sensors,
+                  std::map<Sensor*, std::string>& sensor_service,
+                  int poll_interval_ms, PubMaster& pm_int) {
   while (!do_exit) {
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     for (Sensor *sensor : sensors) {
@@ -107,16 +109,15 @@ void polling_loop(std::vector<Sensor *>& sensors, std::map<Sensor*, std::string>
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     std::this_thread::sleep_for(std::chrono::milliseconds(poll_interval_ms) - (end - begin));
   }
-}
-
-void magnetometer_loop(std::vector<Sensor *>& sensors,
-                       std::map<Sensor*, std::string>& sensor_service)
-{
-  PubMaster pm_int({"magnetometer"});
-  polling_loop(sensors, sensor_service, 40, pm_int);
   for (Sensor *sensor : sensors) {
     sensor->shutdown();
   }
+}
+
+void magnetometer_loop(std::vector<Sensor *>& sensors,
+                       std::map<Sensor*, std::string>& sensor_service) {
+  PubMaster pm_mag({"magnetometer"});
+  polling_loop(sensors, sensor_service, 40, pm_mag);
 }
 
 int sensor_loop(I2CBus *i2c_bus_imu) {
@@ -209,10 +210,6 @@ int sensor_loop(I2CBus *i2c_bus_imu) {
 
   // polling loop for non interrupt handled sensors
   polling_loop(sensors, sensor_service, 10, pm_non_int);
-
-  for (Sensor *sensor : sensors) {
-    sensor->shutdown();
-  }
 
   lsm_interrupt_thread.join();
   magnetometer_thread.join();
