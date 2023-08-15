@@ -3,10 +3,9 @@ name: 'openpilot env setup'
 runs:
   using: "composite"
   steps:
-    - name: Run ls -lh to see permissions
-      timeout-minutes: 20
-      run: |
-        ls -lh
+    - shell: bash
+      name: Run ls -lh to see permissions
+      run: ls -lh
     # do this after checkout to ensure our custom LFS config is used to pull from GitLab
     - shell: bash
       run: git lfs pull
