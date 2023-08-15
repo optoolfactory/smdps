@@ -6,8 +6,18 @@ runs:
     - shell: bash
       name: Run ls -lh to see permissions
       run: |
-        ls -lh
-        ls -lh tools
+        ls -lah
+        ls -lah tools
+    - shell: bash
+      name: Normalize file permissions for docker build
+      run: |
+        chmod 644 poetry.lock pyproject.toml .python-version
+        chmod 755 tools/ubuntu_setup.sh tools/install_python_dependencies.sh
+    - shell: bash
+      name: Run ls -lh to see permissions
+      run: |
+        ls -lah
+        ls -lah tools
     # do this after checkout to ensure our custom LFS config is used to pull from GitLab
     - shell: bash
       run: git lfs pull
