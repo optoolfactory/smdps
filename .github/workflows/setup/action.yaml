@@ -4,10 +4,11 @@ runs:
   using: "composite"
   steps:
     - shell: bash
-      name: Run ls -lh to see permissions
+      name: Run ls -lh to see permissions and mtime
       run: |
         ls -lah
         ls -lah tools
+        date -r pyproject.toml "+%D %T %s"
     - shell: bash
       name: Normalize file permissions for docker build
       run: |
