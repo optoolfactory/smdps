@@ -10,7 +10,7 @@ runs:
     - shell: bash
       name: Normalize file permissions
       run: |
-        chmod 644 poetry.lock pyproject.toml .python-version
+        chmod 644 Dockerfile.openpilot_base poetry.lock pyproject.toml .python-version
         chmod 755 tools/ubuntu_setup.sh tools/install_python_dependencies.sh
     # build cache
     - id: date
