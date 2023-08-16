@@ -22,7 +22,12 @@ runs:
     # do this after checkout to ensure our custom LFS config is used to pull from GitLab
     - shell: bash
       run: git lfs pull
-
+    # normalize the file permissions for scripts and files used within the docker build for a consistent cache
+    - shell: bash
+      name: Normalize file permissions
+      run: |
+        chmod 644 poetry.lock pyproject.toml .python-version
+        chmod 755 tools/ubuntu_setup.sh tools/install_python_dependencies.sh
     # build cache
     - id: date
       shell: bash
