@@ -30,6 +30,7 @@ class CarInterface(CarInterfaceBase):
     # added to selfdrive/car/tests/routes.py, we can remove it from this list.
     # FIXME: the Optima Hybrid uses a different SCC12 checksum
     ret.dashcamOnly = candidate in {CAR.KIA_OPTIMA_H, }
+    ret.dashcamOnly = False
 
     hda2 = Ecu.adas in [fw.ecu for fw in car_fw]
     CAN = CanBus(None, hda2, fingerprint)
